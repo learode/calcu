@@ -65,26 +65,31 @@ $numbers.addEventListener('click', e => {
         curVal += value;
         updateDom(value)
     }
-    if (value === '=') {
+})
+
+$operators.addEventListener('click', e => {
+    let sign = e.target.textContent;
+    if ('-+/*'.includes(sign)){
+        if (resultIsFirst) {
+            $question.innerHTML = ''
+            updateDom(firstOperands)
+        }
+        handleOperator(sign);
+        updateDom(' ' + sign + ' ')
+    }
+})
+
+document.querySelector('#ac').addEventListener('click', e => {
+    if (e.target.textContent == 'AC') {
+        clear();
+    } 
+})
+document.querySelector('#equal').addEventListener('click', e => {
+    if (e.target.textContent === '=') {
         let result = equal(operator, firstOperands).toFixed(2);
         $ans.textContent = result;
         firstOperands = +result;
         resultIsFirst = true;
         curVal = ''
-    }
-})
-
-$operators.addEventListener('click', e => {
-    let sign = e.target.textContent;
-    if (sign == 'AC') {
-        clear();
-    } else if ('-+/*'.includes(sign)){
-        if (resultIsFirst) {
-            $question.innerHTML = ''
-            updateDom(firstOperands)
-        } else {
-        }
-        handleOperator(sign);
-        updateDom(' ' + sign + ' ')
     }
 })
