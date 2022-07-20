@@ -5,16 +5,15 @@ let $question = document.querySelector('.quest');
 let $ans = document.querySelector('.ans');
 let $operators = document.querySelector('.operators');
 
-
 let curVal = '';
 let operator = '';
 let firstOperands = null;
 let secondOperands = null;
+let resultIsFirst = false;
     
 const handleOperator = (sign) => {
     curVal && (firstOperands = parseFloat(curVal));
     operator = sign;
-
     curVal = '';
 }
 
@@ -33,7 +32,6 @@ const multiple = (operands1, operands2) => {
 
 const equal = (sign, firstOperands) => {
     secondOperands = parseFloat(curVal);
-    console.log('sec', secondOperands, 'fis', firstOperands)
     switch ( sign ) {
         case '+' :
             return sum(firstOperands, secondOperands);
@@ -53,26 +51,26 @@ const updateDom = (val) => {
 }
 
 const clear = () => {
-    $question.textContent = '';
-    curVal = ''
+    $question.innerHTML = '';
+    $ans.innerHTML = '';
+    curVal = '';
+    resultIsFirst = false;
     firstOperands = null;
     secondOperands = null;
 }
-
 
 $numbers.addEventListener('click', e => {
     let value = e.target.textContent;
     if ('1234567890.'.includes(value)) {
         curVal += value;
-        // console.log('val', curVal)
         updateDom(value)
     }
     if (value === '=') {
         let result = equal(operator, firstOperands).toFixed(2);
-        $question.textContent = result;
+        $ans.textContent = result;
         firstOperands = +result;
+        resultIsFirst = true;
         curVal = ''
-        // console.log('firs', firstOperands, 'cur', curVal)
     }
 })
 
@@ -81,6 +79,11 @@ $operators.addEventListener('click', e => {
     if (sign == 'AC') {
         clear();
     } else if ('-+/*'.includes(sign)){
+        if (resultIsFirst) {
+            $question.innerHTML = ''
+            updateDom(firstOperands)
+        } else {
+        }
         handleOperator(sign);
         updateDom(' ' + sign + ' ')
     }
