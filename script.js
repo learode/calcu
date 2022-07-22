@@ -44,7 +44,7 @@ const equal = (sign, firstOperands) => {
 const updateDom = (val) => {
     $question.textContent += (val);
 }
-const enableEqual = () => {
+const enable = () => {
     document.querySelector('#equal').removeAttribute('disabled')
     document.querySelector('#dot').removeAttribute('disabled')
 }
@@ -56,11 +56,11 @@ const clear = () => {
     resultIsFirst = false;
     firstOperands = null;
     secondOperands = null;
-    enableEqual()
+    enable()
 }
 const handleOperator = (sign) => {
     curVal && (firstOperands = Number(curVal)); // if the curval has a value
-    enableEqual();
+    enable();
     operator = sign;
     curVal = ''; // reset the curval for the second operand
 }
@@ -72,7 +72,7 @@ $numbers.addEventListener('click', e => {
         console.log(value);
         curVal += value;
         updateDom(value);
-        enableEqual();
+        enable();
     } 
     if ('.'.includes(value) && !curVal.includes(value)) { // prevent multiple dots in an operand
         curVal += value;
