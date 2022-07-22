@@ -7,4 +7,6 @@ remove this such that if the result is issued and a digit is click, the question
 - [x] if the equal sign is click twice or so, it results to NaN: disable equal when it is first click and enable when updateDom is called.
 - [x] Don't accept any sign from the operators side unless a value is present
 - [x] Disable multiple dots
+- [x] The result as the first operand, display twice the operator and a click on a digit resolve to clear screen
+
 ## Features

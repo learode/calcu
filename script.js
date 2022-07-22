@@ -84,15 +84,15 @@ $numbers.addEventListener('click', e => {
 $operators.addEventListener('click', e => {
     let sign = e.target.textContent;
     if ('-+/*'.includes(sign)){
-        if (resultIsFirst && firstOperands) { //using the result as the first operand
+        if (resultIsFirst && curVal === '' && firstOperands) { 
+            // using the result as the first operand
             $question.innerHTML = ''
             updateDom(firstOperands)
-            console.log(sign);
+            resultIsFirst = !resultIsFirst
             updateDom(' ' + sign + ' ');
         }
-        if (curVal || firstOperands ) { // prevent entry of sign if the curval is empty
-            handleOperator(sign);
-            console.log(sign);
+        if (curVal) { // prevent entry of sign if the curval is empty
+            handleOperator(sign); //return firstOp and the sign
             updateDom(' ' + sign + ' ');
         }
     }
@@ -110,6 +110,6 @@ document.querySelector('#equal').addEventListener('click', e => {
         firstOperands = +result;
         resultIsFirst = true;
         curVal = ''
-        e.target.setAttribute('disabled', 'true');
+        e.target.setAttribute('disabled', 'true'); // prevent double click
     }
 })
