@@ -89,12 +89,13 @@ $operators.addEventListener('click', e => {
             $question.innerHTML = ''
             updateDom(firstOperands)
             resultIsFirst = !resultIsFirst
-            updateDom(' ' + sign + ' ');
+            operator = sign;
         }
         if (curVal) { // prevent entry of sign if the curval is empty
+            console.log(sign);
             handleOperator(sign); //return firstOp and the sign
-            updateDom(' ' + sign + ' ');
         }
+        updateDom(' ' + sign + ' ');
     }
 })
 
@@ -107,7 +108,7 @@ document.querySelector('#equal').addEventListener('click', e => {
     if (e.target.textContent === '=') {
         let result = equal(operator, firstOperands);
         $ans.textContent = result;
-        firstOperands = +result;
+        firstOperands = Number(result);
         resultIsFirst = true;
         curVal = ''
         e.target.setAttribute('disabled', 'true'); // prevent double click
