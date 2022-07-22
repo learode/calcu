@@ -11,11 +11,6 @@ let firstOperands = null;
 let secondOperands = null;
 let resultIsFirst = false;
     
-const handleOperator = (sign) => {
-    curVal && (firstOperands = Number(curVal)); // if the curval has a value
-    operator = sign;
-    curVal = ''; // reset the curval for the second operand
-}
 
 const sum = (operands1, operands2) => {
     return operands1 + operands2;
@@ -45,12 +40,13 @@ const equal = (sign, firstOperands) => {
             return "";       
     }
 }
-
+                
 const updateDom = (val) => {
     $question.textContent += (val);
 }
 const enableEqual = () => {
     document.querySelector('#equal').removeAttribute('disabled')
+    document.querySelector('#dot').removeAttribute('disabled')
 }
 
 const clear = () => {
@@ -62,13 +58,25 @@ const clear = () => {
     secondOperands = null;
     enableEqual()
 }
+const handleOperator = (sign) => {
+    curVal && (firstOperands = Number(curVal)); // if the curval has a value
+    enableEqual();
+    operator = sign;
+    curVal = ''; // reset the curval for the second operand
+}
 
 $numbers.addEventListener('click', e => {
     let value = e.target.textContent;
-    if ('1234567890.'.includes(value)) {
+    if ('1234567890'.includes(value)) {
         curVal += value;
         updateDom(value);
         enableEqual();
+    } 
+    console.log(value);
+    if ('.'.includes(value) && !curVal.includes(value)) { // prevent multiple dots in an operand
+        curVal += value;
+        updateDom(value)
+        e.target.setAttribute('disabled', 'true');
     }
 })
 
@@ -78,8 +86,9 @@ $operators.addEventListener('click', e => {
         if (resultIsFirst) {
             $question.innerHTML = ''
             updateDom(firstOperands)
+            updateDom(' ' + sign + ' ');
         }
-        if (curVal) { // prevent entry of sign if the curval is empty
+        if (curVal || firstOperands ) { // prevent entry of sign if the curval is empty
             handleOperator(sign);
             updateDom(' ' + sign + ' ');
         }
