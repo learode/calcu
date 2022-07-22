@@ -12,7 +12,7 @@ let secondOperands = null;
 let resultIsFirst = false;
     
 const handleOperator = (sign) => {
-    curVal && (firstOperands = parseFloat(curVal));
+    curVal && (firstOperands = Number(curVal));
     operator = sign;
     curVal = '';
 }
@@ -31,7 +31,7 @@ const multiple = (operands1, operands2) => {
 } 
 
 const equal = (sign, firstOperands) => {
-    secondOperands = parseFloat(curVal);
+    secondOperands = Number(curVal);
     switch ( sign ) {
         case '+' :
             return sum(firstOperands, secondOperands);
@@ -49,6 +49,9 @@ const equal = (sign, firstOperands) => {
 const updateDom = (val) => {
     $question.textContent += (val);
 }
+const enableEqual = () => {
+    document.querySelector('#equal').removeAttribute('disabled')
+}
 
 const clear = () => {
     $question.innerHTML = '';
@@ -57,6 +60,7 @@ const clear = () => {
     resultIsFirst = false;
     firstOperands = null;
     secondOperands = null;
+    enableEqual()
 }
 
 $numbers.addEventListener('click', e => {
@@ -86,10 +90,11 @@ document.querySelector('#ac').addEventListener('click', e => {
 })
 document.querySelector('#equal').addEventListener('click', e => {
     if (e.target.textContent === '=') {
-        let result = equal(operator, firstOperands).toFixed(2);
+        let result = equal(operator, firstOperands);
         $ans.textContent = result;
         firstOperands = +result;
         resultIsFirst = true;
         curVal = ''
+        e.target.setAttribute('disabled', 'true');
     }
 })
