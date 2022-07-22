@@ -12,9 +12,9 @@ let secondOperands = null;
 let resultIsFirst = false;
     
 const handleOperator = (sign) => {
-    curVal && (firstOperands = Number(curVal));
+    curVal && (firstOperands = Number(curVal)); // if the curval has a value
     operator = sign;
-    curVal = '';
+    curVal = ''; // reset the curval for the second operand
 }
 
 const sum = (operands1, operands2) => {
@@ -67,7 +67,8 @@ $numbers.addEventListener('click', e => {
     let value = e.target.textContent;
     if ('1234567890.'.includes(value)) {
         curVal += value;
-        updateDom(value)
+        updateDom(value);
+        enableEqual();
     }
 })
 
@@ -78,8 +79,10 @@ $operators.addEventListener('click', e => {
             $question.innerHTML = ''
             updateDom(firstOperands)
         }
-        handleOperator(sign);
-        updateDom(' ' + sign + ' ')
+        if (curVal) { // prevent entry of sign if the curval is empty
+            handleOperator(sign);
+            updateDom(' ' + sign + ' ');
+        }
     }
 })
 
