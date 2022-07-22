@@ -68,11 +68,12 @@ const handleOperator = (sign) => {
 $numbers.addEventListener('click', e => {
     let value = e.target.textContent;
     if ('1234567890'.includes(value)) {
+        resultIsFirst && clear()
+        console.log(value);
         curVal += value;
         updateDom(value);
         enableEqual();
     } 
-    console.log(value);
     if ('.'.includes(value) && !curVal.includes(value)) { // prevent multiple dots in an operand
         curVal += value;
         updateDom(value)
@@ -83,13 +84,15 @@ $numbers.addEventListener('click', e => {
 $operators.addEventListener('click', e => {
     let sign = e.target.textContent;
     if ('-+/*'.includes(sign)){
-        if (resultIsFirst) {
+        if (resultIsFirst && firstOperands) { //using the result as the first operand
             $question.innerHTML = ''
             updateDom(firstOperands)
+            console.log(sign);
             updateDom(' ' + sign + ' ');
         }
         if (curVal || firstOperands ) { // prevent entry of sign if the curval is empty
             handleOperator(sign);
+            console.log(sign);
             updateDom(' ' + sign + ' ');
         }
     }
